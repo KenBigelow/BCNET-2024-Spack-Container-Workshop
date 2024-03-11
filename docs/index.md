@@ -1,1 +1,1 @@
-{!README.md!}
+{!index.rst!}

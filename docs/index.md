@@ -1,5 +1,3 @@
-.. _ubc-workshop-:
-
 Resources
 ---------
 * **UBC myVPN**

@@ -29,7 +29,5 @@ html_logo = "bcnet-logo.png"
 html_theme_options = {
     'logo_only': True,
     'display_version': False,
-}
-html_theme_options = {
     'navigation_depth': 4,
 }

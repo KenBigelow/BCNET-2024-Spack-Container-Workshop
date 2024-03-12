@@ -1,57 +1,8 @@
 Welcome to the BCNET 2024 Spack Container Workshop
 ===================================
 
-.. _installation:
-
-Installation
-------------
-
-To use Lumache, first install it using pip:
-
-.. code-block:: console
-
-   (.venv) $ pip install lumache
-
-Creating recipes
-----------------
-
-To retrieve a list of random ingredients,
-you can use the ``lumache.get_random_ingredients()`` function:
-
-.. autofunction:: lumache.get_random_ingredients
-
-The ``kind`` parameter should be either ``"meat"``, ``"fish"``,
-or ``"veggies"``. Otherwise, :py:func:`lumache.get_random_ingredients`
-will raise an exception.
-
-.. autoexception:: lumache.InvalidKindError
-
-For example:
-
->>> import lumache
->>> lumache.get_random_ingredients()
-['shells', 'gorgonzola', 'parsley']
-
-.. _ubc-workshop-:
-
-Resources
----------
-* **UBC myVPN**
-* **UBC ARC RONIN Login:** 
-* **Additional Information:**
-* **RONIN Application Form:** 
-* **RONIN Blog:** 
-* **RONIN Link:**
-* **RONIN/Spack Workshop:**
-* **UBC ARC Support:**
-
-
-=========================================
-RONIN Auto Scale Cluster / Spack Workshop
-=========================================
-
 In this workshop we will guide you through the process of using spack
-to build software stacks. First we will build our virtual machine
+to build software stacks. First log into our virtual machine
 and install spack. Then a deep dive into spack focusing on the 
 power of various specs syntax and the flexibility it gives
 to users. We will cover the ``spack spec``/``spack install`` for 
@@ -62,14 +13,11 @@ while using Spack-built compilers within Spack. Then we will cover
 custom build scripts for managing complex software stacks as well lessons
 learned using spack. Finally we will take everything we learned using spack
 and the package singularity / apptainer to create a singularity container
-and run this container using slurm inside of the autoscale cluster then
-visualize the results using the RONIN Link application.
+and run this container.
 
 We will include a few output from the commands demonstrated, to save time
 we will frequently call attention to only small portions of
 that output.
-
-The provided output is all from an AWS instance running Ubuntu 18.04.
 
 ----------------
 About Spack & Credits 

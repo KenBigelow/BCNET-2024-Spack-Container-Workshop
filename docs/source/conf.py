@@ -34,6 +34,6 @@ html_theme_options = {
     'navigation_depth': 4,
     'includehidden': True,
     'titles_only': False,
-    'globaltoc_collapse': True,
+    'globaltoc_collapse': False,
     'globaltoc_maxdepth': None,
 }

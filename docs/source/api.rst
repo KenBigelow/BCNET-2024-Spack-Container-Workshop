@@ -1,7 +1,2 @@
-API
+Spack Workshop
 ===
-
-.. autosummary::
-   :toctree: generated
-
-   lumache

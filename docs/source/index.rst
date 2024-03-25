@@ -495,6 +495,7 @@ Sometimes everything you already need is available in a container online. This c
 
 To start off we will run the following command:
 .. code-block:: console
+
   apptainer pull docker://rockylinux/rockylinux:9 `
 
 This will download a basic container that runs on Rocky Linux 9 rather than Ubuntu that your VM is running.
@@ -502,11 +503,13 @@ This will download a basic container that runs on Rocky Linux 9 rather than Ubun
 Once the container is finished downloading we will look at the differences between the two containers. Before starting the container run the command
 
 .. code-block:: console
+
   tar --version`
 
 Now lets start a session within the container and run the command again:
 
 .. code-block:: console
+
   apptainer shell rockylinux_9.sif
   tar --version
 
@@ -515,6 +518,7 @@ Note that the container has a different version of tar than the main operating s
 Additionally commands to containers can be passed non-interactively. For HPC systems, when submitting jobs this will be the main method of calling containers within job scripts:
 
 .. code-block:: console
+
   apptainer exec rockylinux_9.sif tar --version
 
 
@@ -560,6 +564,7 @@ Apptainer Image Header
 Every build file starts with a base image and a location to pull the image from. In our case lets look at a basic Ubuntu image as the starting point
 
 .. code-block:: console
+
   Bootstrap: docker
   From: ubuntu:22.04
 
@@ -568,6 +573,7 @@ This tells us we want a container from DockerHub from Ubuntu with the release 22
 Next we will define our environment variables that will be set up each time the container launches. This is very useful if you have a complex install path and would like it to be set up for easy execution from the command line.
 
 .. code-block:: console
+
   %environment
   export PATH=/opt/new_software/bin:${PATH}
   export EXAMPLE_VAR=23
@@ -575,6 +581,7 @@ Next we will define our environment variables that will be set up each time the 
 Finally we have the main block for the build file: 'post'. This block defines all of the commands we want to run to build up the environment and install software. Here we can place commands to set up our software in `/opt/new_software/bin` and ensure it is ready to go when the container finishes building.
 
 .. code-block:: console
+
   %post
   apt-get update && apt-get install -y --no-install-recommends  wget tar zip man git gcc
   mkdir -p /opt/new_software/bin
@@ -584,11 +591,13 @@ Finally we have the main block for the build file: 'post'. This block defines al
 This puts a simple bash script into our path. Now lets finish off and build the container to see how it executes. Please use whatever you named the build file in place of 'my_container.def'
 
 .. code-block:: console
+
   apptainer build my_container.sif  my_container.def
 
 Now finally we can execute the container built and see the colored output from the script we added.
 
 .. code-block:: console
+
   apptainer exec my_container.sif color.sh
 
 

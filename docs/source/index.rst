@@ -19,9 +19,9 @@ We will include a few output from the commands demonstrated, to save time
 we will frequently call attention to only small portions of
 that output.
 
-----------------
+----------------------
 About Spack & Credits 
-----------------
+----------------------
 
 Spack is a package management tool designed to support multiple versions and configurations 
 of software on a wide variety of platforms and environments. It was designed for large 
@@ -150,9 +150,9 @@ The ``spack`` command will prompt a feature rich list of common spack commands.
   spack help --spec      help on the package specification syntax
   spack docs             open https://spack.rtfd.io/ in a browser
 
------------------
+----------------------
 Spack Common Commands
------------------
+----------------------
 
 The ``spack list`` command shows available packages to install.
 
@@ -205,9 +205,9 @@ The ``spack uninstall`` command will remove installed packages.
   $ spack uninstall --help
   $ spack uninstall tcl
   
------------------
+-----------------------------------------
 Spack Install / Uninstall / Build Caches
------------------
+-----------------------------------------
 
 Lets start with a simple package install of tcl ``spack install``.
 
@@ -294,9 +294,9 @@ Loading up installed modules
   $ htop --version
   htop 3.2.0
 
------------------
+-------------------
 Spack Build Caches 
------------------
+-------------------
 
 The use of a ``binary cache`` can result in software installs up to 20x faster 
 for common Spack package installs. This tutorial will explain through the process 
@@ -470,16 +470,67 @@ cache. Let's use a build cache and see how long it takes.
   
 Notice the difference with the installed packaged / compiler version vs non cache.  
 
------------------
+==============================
 Building Apptainer Containers
+==============================
+
+About Containers
 -----------------
 
+Containerized software is becoming more prevelant throughout the computing landscape and that includes research computing. Have you ever had an environment that you have spent hours installing and preparing and then needed to turn around and have a colleague need to replicate it, or worse, you need to migrate to an entirely new system? Containers are prefect for this sort of scenario. If you build it once in a container, the file can be brought and shared to any system that runs a container framework and launch it to run software without worrying about the environment on the local machine.
+
+A container functions as effectively an isolated operating system on a node while it is running. Commands and software executed within the container will therefore run using this isolated system. This has many, many applications but for today we will explore how this can be applied to research workloads.
+
+Two common frameworks for containers in research computing are:
+* Docker
+* Apptainer/Singularity
+
+We will focus on using Apptainer but note that Docker containers are also supported by Apptainer and infact will be the basis of several containers we will be building.
+
+
+Downloading Pre-built Containers
+---------------------------------
+
+Sometimes everything you already need is available in a container online. This can save time on building an environment by simply pulling a container that is ready for your use. The most common repository for containers is Docker Hub : <https://hub.docker.com>. This website hosts a variety of Docker containers that are both uploaded by users and organizations and are freely able to be pulled and run on local machines with Apptainer.
+
+To start off we will run the following command:
+.. code-block:: console
+   apptainer pull docker://rockylinux/rockylinux:9 `
+
+This will download a basic container that runs on Rocky Linux 9 rather than Ubuntu that your VM is running.
+
+Once the container is finished downloading we will look at the differences between the two containers. Before starting the container run the command
+
+.. code-block:: console
+   tar --version`
+
+Now lets start a session within the container and run the command again:
+
+.. code-block:: console
+   apptainer shell rockylinux_9.sif
+   tar --version
+
+Note that the container has a different version of tar than the main operating system has. This can be used to build an entire environment with the exact versions of software and libraries needed to execute your research software.
+
+Additionally commands to containers can be passed non-interactively. For HPC systems, when submitting jobs this will be the main method of calling containers within job scripts:
+
+.. code-block:: console
+   apptainer exec rockylinux_9.sif "tar --version"`
+
+
+Leveraging Spack 
+------------------ 
+
+Using Spack we can simplify the build process of environments for containers substantially. Spack has the ability to write an entire build file for a new container from a simple YAML list of packages that Spack can provide. Here we will set up a build for a simple container with a single package using Spack's containerize function.
+
+First we set up the environment for spack and create a new spack.yaml file to read from
 .. code-block:: console
 
   $ cd apptainer
   $ . spack/share/spack/setup-env.sh 
   $ nano spack.yaml
-  
+
+Inserting this code into the spack.yaml file will tell Spack we want 
 .. code-block:: console
   
   spack:
@@ -487,13 +538,34 @@ Building Apptainer Containers
     - dcm2niix
    container:
     format: singularity
-  
+
+Now that we have the packages all loaded we start up apptainer and run the containerize function to make a build definitions file
 .. code-block:: console
 
   $ spack load apptainer
   $ spack containerize > spack-user-dcm2niix.def
   $ apptainer build spack-user-dcm2niix.sif spack-user-dcm2niix.def
-  
+
+Spack will then build from source everything needed for the container and package it within the output .sif file.
+
+
+Building Apptainer containers from scratch
+--------------------------------------------
+
+In some cases the entire set of software you need to build a container is not available in Spack. This can be particularly true if you have self compiled code that needs to be pre-built for your jobs to execute functions from. In that case we can build a Apptainer build file and use that to construct our environment. Lets break down the key components of a build file and then put them together to build an image.
+
+Apptainer Image Header
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Every build file starts with a base image and a location to pull the image from. In our case lets look at a basic Ubuntu image as the starting point
+
+.. code-block:: console
+   Bootstrap: docker
+   From: ubuntu:22.04
+
+This tells us we want a container from DockerHub from Ubuntu with the release 22.04. More complex build files such as the ones generated by Spack will also include a 'Stage' command to allow you to break up compiling and building the container into multiple stages to reduce container size. For this demo we will be working just with a single stage container.
+
+
 -----------------
 Using Apptainer Containers
 -----------------

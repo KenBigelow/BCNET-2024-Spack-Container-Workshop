@@ -496,6 +496,7 @@ Sometimes everything you already need is available in a container online. This c
 To start off we will run the following command:
 
 .. code-block:: console
+
   source spack/share/spack/setup-env.sh
   apptainer pull docker://rockylinux/rockylinux:9
 

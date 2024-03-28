@@ -496,8 +496,8 @@ Sometimes everything you already need is available in a container online. This c
 To start off we will run the following command:
 
 .. code-block:: console
-
-  apptainer pull docker://rockylinux/rockylinux:9 `
+  source spack/share/spack/setup-env.sh
+  apptainer pull docker://rockylinux/rockylinux:9
 
 This will download a basic container that runs on Rocky Linux 9 rather than Ubuntu that your VM is running.
 
@@ -505,7 +505,7 @@ Once the container is finished downloading we will look at the differences betwe
 
 .. code-block:: console
 
-  tar --version`
+  tar --version
 
 Now lets start a session within the container and run the command again:
 

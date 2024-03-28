@@ -600,7 +600,8 @@ Finally we have the main block for the build file: 'post'. This block defines al
   apt-get update && apt-get install -y --no-install-recommends  wget tar zip man git gcc
   mkdir -p /opt/new_software/bin
   cd /opt/new_software/bin
-  wget https://github.com/ruanyf/simple-bash-scripts/raw/master/scripts/color.sh
+  wget --no-check-certificate https://github.com/ruanyf/simple-bash-scripts/raw/master/scripts/color.sh
+  chmod +x color.sh
 
 This puts a simple bash script into our path. Now lets finish off and build the container to see how it executes. Please use whatever you named the build file in place of 'my_container.def'
 

@@ -296,7 +296,7 @@ Using the binary cache
 
 .. code-block:: console
 
-  $ spack mirror add binary_mirror https://binaries.spack.io/develop
+  $ spack mirror add tutorial /mirror
   $ spack buildcache keys --install --trust
   
   ==> Fetching https://binaries.spack.io/develop/build_cache/_pgp/2C8DD3224EF3573A42BD221FA8E0CA3C1C2ADA2F.pub

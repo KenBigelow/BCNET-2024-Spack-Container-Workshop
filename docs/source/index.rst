@@ -58,7 +58,9 @@ Lets make sure have the needed Ubuntu packages for the VM.
   $ sudo apt update
   $ sudo apt upgrade
   $ sudo apt install build-essential ca-certificates coreutils curl environment-modules gfortran git gpg lsb-release python3 python3-distutils python3-venv unzip zip
-  $ sudo apt install awscli
+  $ sudo apt install awscli fuse2fs gocryptfs
+  $ sudo add-apt-repository -y ppa:apptainer/ppa
+  $ sudo apt install -y apptainer
   
 If you have already installed the above packages the output will vary. 
 
@@ -533,6 +535,7 @@ First we set up the environment for spack and create a new spack.yaml file to re
 
 .. code-block:: console
 
+  $ mkdir apptainer
   $ cd apptainer
   $ . spack/share/spack/setup-env.sh 
   $ nano spack.yaml
@@ -543,7 +546,7 @@ Inserting this code into the spack.yaml file will tell Spack we want
   
   spack:
    specs:
-    - dcm2niix
+    - ffmpeg
    container:
     format: singularity
 
@@ -552,8 +555,8 @@ Now that we have the packages all loaded we start up apptainer and run the conta
 .. code-block:: console
 
   $ spack load apptainer
-  $ spack containerize > spack-user-dcm2niix.def
-  $ apptainer build spack-user-dcm2niix.sif spack-user-dcm2niix.def
+  $ spack containerize > spack-user-ffmpeg.def
+  $ apptainer build spack-user-ffmpeg.sif spack-user-ffmpeg.def
 
 Spack will then build from source everything needed for the container and package it within the output .sif file.
 
@@ -562,9 +565,9 @@ Using Apptainer Containers
 
 .. code-block:: console
 
-  $ apptainer exec spack-user-dcm2niix.sif dcm2niix -h
+  $ apptainer exec --fakeroot spack-user-ffmpeg.sif ffmpeg -h
 
-Here we see that the dcm2niix package is installed and ready for use withing the container we built.
+Here we see that the ffmpeg package is installed and ready for use withing the container we built.
 
 
 Building Apptainer containers from scratch

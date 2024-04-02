@@ -48,28 +48,15 @@ Installing Spack
 ----------------
 
 Spack works out of the box. Simply clone Spack to get going. We will
-clone Spack and immediately check out the most recent release, v0.20.
+clone Spack and immediately check out the most recent release, v0.21.
 
-But first...
-Lets make sure have the needed Ubuntu packages for the VM. 
-
-.. code-block:: console
-
-  $ sudo apt update
-  $ sudo apt upgrade
-  $ sudo apt install build-essential ca-certificates coreutils curl environment-modules gfortran git gpg lsb-release python3 python3-distutils python3-venv unzip zip
-  $ sudo apt install awscli fuse2fs gocryptfs
-  $ sudo add-apt-repository -y ppa:apptainer/ppa
-  $ sudo apt install -y apptainer
-  
-If you have already installed the above packages the output will vary. 
-
-Now let's install spack.
+Now let's install spack inside of our training docker environment
   
 .. code-block:: console
 
+  $ docker run -it ghcr.io/spack/tutorial:sc23
   $ git clone -c feature.manyFiles=true https://github.com/spack/spack.git
-  
+
 .. code-block:: console
 
   Cloning into '/home/spack1/spack'...
